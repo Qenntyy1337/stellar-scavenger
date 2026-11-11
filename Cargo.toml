@@ -1,0 +1,37 @@
+# ============================================================================
+#  Stellar Scavenger: Core & Relics
+#  Космический 2D-кликер на Rust + Macroquad
+#  Сборка:  cargo build --release   (бинарь в target/release/)
+#  Запуск:  cargo run --release
+# ============================================================================
+[package]
+name = "stellar-scavenger"
+version = "1.0.0"
+edition = "2021"
+rust-version = "1.75"
+description = "Stellar Scavenger: Core & Relics — space clicker with drones, relics and prestige"
+license = "MIT"
+repository = "https://github.com/your-name/stellar-scavenger"
+keywords = ["game", "clicker", "macroquad", "rust", "incremental"]
+categories = ["games"]
+
+[dependencies]
+# Движок: окно, ввод, 2D-графика, TTF-шрифты, процедурный rand.
+# Фича "audio" подключает встроенный аудиомикшер (quad-snd, WAV/OGG)
+# — используется вместо rodio: меньше системных зависимостей, кроссплатформенность.
+macroquad = { version = "0.4.14", features = ["audio"] }
+# Сериализация сохранений и настроек в JSON.
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# --- Профили сборки ---------------------------------------------------------
+[profile.release]
+opt-level = 3
+lto = "thin"          # быстрая линковка + хорошая оптимизация
+codegen-units = 1
+
+[profile.dev]
+opt-level = 1         # играбельный дебаг-билд (частицы/шрифты не тормозят)
+
+[profile.dev.package."*"]
+opt-level = 3         # зависимости всегда оптимизированы
